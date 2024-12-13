@@ -1,0 +1,130 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+
+class Destination {
+    private String name;
+    private String date;
+    private String weather;
+    private double cost;
+
+    public Destination(String name, String date, String weather, double cost) {
+        this.name = name;
+        this.date = date;
+        this.weather = weather;
+        this.cost = cost;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public String getWeather() {
+        return weather;
+    }
+
+    public double getCost() {
+        return cost;
+    }
+
+    public void displayDetails() {
+        System.out.println("Destination: " + name);
+        System.out.println("Date: " + date);
+        System.out.println("Weather: " + weather);
+        System.out.println("Estimated Cost: $" + cost);
+    }
+}
+
+public class TravelItineraryPlanner {
+
+    private static ArrayList<Destination> itinerary = new ArrayList<>();
+    private static Scanner scanner = new Scanner(System.in);
+    private static double totalBudget = 0;
+
+    public static void main(String[] args) {
+        System.out.println("Welcome to the Travel Itinerary Planner!");
+        
+                while (true) {
+            showMenu();
+            int choice = scanner.nextInt();
+            scanner.nextLine();              switch (choice) {
+                case 1:
+                    addDestination();
+                    break;
+                case 2:
+                    viewItinerary();
+                    break;
+                case 3:
+                    calculateBudget();
+                    break;
+                case 4:
+                    System.out.println("Thank you for using the Travel Itinerary Planner. Goodbye!");
+                    scanner.close();
+                    System.exit(0);
+                    break;
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+            }
+        }
+    }
+
+   
+    public static void showMenu() {
+        System.out.println("\n--- Travel Itinerary Planner ---");
+        System.out.println("1. Add Destination");
+        System.out.println("2. View Itinerary");
+        System.out.println("3. Calculate Budget");
+        System.out.println("4. Exit");
+        System.out.print("Enter your choice: ");
+    }
+
+    
+    public static void addDestination() {
+        System.out.print("Enter destination name: ");
+        String name = scanner.nextLine();
+
+        System.out.print("Enter travel date (YYYY-MM-DD): ");
+        String date = scanner.nextLine();
+
+        System.out.print("Enter weather at the destination (e.g., Sunny, Rainy, Cloudy): ");
+        String weather = scanner.nextLine();
+
+                double cost = calculateDestinationCost();
+
+                Destination destination = new Destination(name, date, weather, cost);
+        itinerary.add(destination);
+
+        System.out.println("Destination added successfully!");
+    }
+
+        public static double calculateDestinationCost() {
+        System.out.print("Enter estimated cost for this destination: $");
+        double cost = scanner.nextDouble();
+        scanner.nextLine();          return cost;
+    }
+
+       public static void viewItinerary() {
+        if (itinerary.isEmpty()) {
+            System.out.println("No destinations in your itinerary yet.");
+        } else {
+            System.out.println("\n--- Your Travel Itinerary ---");
+            for (Destination destination : itinerary) {
+                destination.displayDetails();
+                System.out.println("-----------------------------");
+            }
+        }
+    }
+
+      public static void calculateBudget() {
+        totalBudget = 0;
+        for (Destination destination : itinerary) {
+            totalBudget += destination.getCost();
+        }
+
+        System.out.println("\n--- Total Budget ---");
+        System.out.println("Total estimated cost for your trip: $" + totalBudget);
+    }
+}
